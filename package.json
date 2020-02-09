@@ -19,12 +19,6 @@
   "files": [
     "dist/*"
   ],
-  "precommit": [
-    "lint",
-    "test",
-    "clean",
-    "build"
-  ],
   "scripts": {
     "start": "tsc -p ./tsconfig.build.json -w",
     "build": "tsc -p ./tsconfig.build.json",
@@ -51,7 +45,6 @@
     "@types/webpack": "^4.39.1",
     "jest": "^24.9.0",
     "memory-fs": "^0.4.1",
-    "pre-commit": "^1.2.2",
     "prettier": "^1.18.2",
     "react": "^16.9.0",
     "rimraf": "^3.0.0",
