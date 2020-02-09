@@ -15,6 +15,10 @@ Webpack loader to generate docgen information from TypeScript React components. 
   <a href="https://ci.appveyor.com/project/strothj/react-docgen-typescript-loader">
   <img src="https://ci.appveyor.com/api/projects/status/6l1xdmf8moud8vyj?svg=true">
   </a>
+
+  <a href="http://commitizen.github.io/cz-cli/">
+  <img src="https://img.shields.io/badge/commitizen-friendly-brightgreen.svg">
+  </a>
 </p>
 
 <p align="center">

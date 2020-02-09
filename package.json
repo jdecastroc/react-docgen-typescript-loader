@@ -19,12 +19,18 @@
   "files": [
     "dist/*"
   ],
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
   "scripts": {
     "start": "tsc -p ./tsconfig.build.json -w",
     "build": "tsc -p ./tsconfig.build.json",
     "clean": "rimraf dist",
     "test": "jest",
-    "lint": "tslint -p ./"
+    "lint": "tslint -p ./",
+    "commit": "git-cz"
   },
   "dependencies": {
     "@webpack-contrib/schema-utils": "^1.0.0-beta.0",
@@ -43,6 +49,8 @@
     "@types/node": "^12.7.3",
     "@types/react": "^16.9.2",
     "@types/webpack": "^4.39.1",
+    "commitizen": "^4.0.3",
+    "cz-conventional-changelog": "3.1.0",
     "jest": "^24.9.0",
     "memory-fs": "^0.4.1",
     "prettier": "^1.18.2",
