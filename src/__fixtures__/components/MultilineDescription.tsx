@@ -10,8 +10,6 @@ interface MultilineDescriptionProps {
  *
  * Second line.
  */
-export const MultilineDescriptionComponent: React.SFC<
-  MultilineDescriptionProps
-> = props => (
+export const MultilineDescriptionComponent: React.SFC<MultilineDescriptionProps> = props => (
   <button style={{ backgroundColor: props.color }}>{props.children}</button>
 );

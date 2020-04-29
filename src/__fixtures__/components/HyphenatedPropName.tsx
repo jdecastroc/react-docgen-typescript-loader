@@ -8,9 +8,7 @@ interface HyphenatedPropNameProps {
 /**
  * A component with a hyphenated prop name.
  */
-export const HyphenatedPropNameComponent: React.SFC<
-  HyphenatedPropNameProps
-> = props => (
+export const HyphenatedPropNameComponent: React.SFC<HyphenatedPropNameProps> = props => (
   <button style={{ backgroundColor: props["button-color"] }}>
     {props.children}
   </button>

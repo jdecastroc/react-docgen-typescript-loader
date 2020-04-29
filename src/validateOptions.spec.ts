@@ -21,7 +21,7 @@ describe("skipPropsWithName", () => {
 
   it("rejects empty array", () => {
     expect(() => validateOptions({ skipPropsWithName: [] })).toThrowError(
-      /skipPropsWithName.*should NOT have less than 1 items/,
+      /skipPropsWithName.*should NOT have fewer than 1 items/,
     );
 
     expect(() =>

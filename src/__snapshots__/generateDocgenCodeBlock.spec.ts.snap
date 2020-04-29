@@ -52,9 +52,7 @@ interface DefaultPropValueComponentProps {
 /**
  * Component with a prop with a default value.
  */
-export const DefaultPropValueComponent: React.SFC<
-  DefaultPropValueComponentProps
-> = props => (
+export const DefaultPropValueComponent: React.SFC<DefaultPropValueComponentProps> = props => (
   <button disabled={props.disabled} style={{ backgroundColor: props.color }}>
     {props.counter}
     {props.children}
@@ -157,9 +155,7 @@ interface HyphenatedPropNameProps {
 /**
  * A component with a hyphenated prop name.
  */
-export const HyphenatedPropNameComponent: React.SFC<
-  HyphenatedPropNameProps
-> = props => (
+export const HyphenatedPropNameComponent: React.SFC<HyphenatedPropNameProps> = props => (
   <button style={{ backgroundColor: props[\\"button-color\\"] }}>
     {props.children}
   </button>
@@ -187,9 +183,7 @@ interface MultiPropsComponentProps {
 /**
  * This is a component with multiple props.
  */
-export const MultiPropsComponent: React.SFC<
-  MultiPropsComponentProps
-> = props => (
+export const MultiPropsComponent: React.SFC<MultiPropsComponentProps> = props => (
   <button style={{ backgroundColor: props.color }}>{props.children}</button>
 );
 try {
@@ -214,9 +208,7 @@ interface MultilineDescriptionProps {
  *
  * Second line.
  */
-export const MultilineDescriptionComponent: React.SFC<
-  MultilineDescriptionProps
-> = props => (
+export const MultilineDescriptionComponent: React.SFC<MultilineDescriptionProps> = props => (
   <button style={{ backgroundColor: props.color }}>{props.children}</button>
 );
 try {
@@ -243,9 +235,7 @@ interface MultilinePropDescriptionComponentProps {
 /**
  * A component with multiline prop description.
  */
-export const MultilinePropDescriptionComponent: React.SFC<
-  MultilinePropDescriptionComponentProps
-> = props => (
+export const MultilinePropDescriptionComponent: React.SFC<MultilinePropDescriptionComponentProps> = props => (
   <button style={{ backgroundColor: props.color }}>{props.children}</button>
 );
 try {
@@ -325,9 +315,7 @@ interface DefaultPropValueComponentProps {
 /**
  * Component with a prop with a default value.
  */
-export const DefaultPropValueComponent: React.SFC<
-  DefaultPropValueComponentProps
-> = props => (
+export const DefaultPropValueComponent: React.SFC<DefaultPropValueComponentProps> = props => (
   <button disabled={props.disabled} style={{ backgroundColor: props.color }}>
     {props.counter}
     {props.children}

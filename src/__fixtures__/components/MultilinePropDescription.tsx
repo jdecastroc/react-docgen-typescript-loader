@@ -12,8 +12,6 @@ interface MultilinePropDescriptionComponentProps {
 /**
  * A component with multiline prop description.
  */
-export const MultilinePropDescriptionComponent: React.SFC<
-  MultilinePropDescriptionComponentProps
-> = props => (
+export const MultilinePropDescriptionComponent: React.SFC<MultilinePropDescriptionComponentProps> = props => (
   <button style={{ backgroundColor: props.color }}>{props.children}</button>
 );

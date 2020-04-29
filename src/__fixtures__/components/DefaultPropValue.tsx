@@ -22,9 +22,7 @@ interface DefaultPropValueComponentProps {
 /**
  * Component with a prop with a default value.
  */
-export const DefaultPropValueComponent: React.SFC<
-  DefaultPropValueComponentProps
-> = props => (
+export const DefaultPropValueComponent: React.SFC<DefaultPropValueComponentProps> = props => (
   <button disabled={props.disabled} style={{ backgroundColor: props.color }}>
     {props.counter}
     {props.children}
