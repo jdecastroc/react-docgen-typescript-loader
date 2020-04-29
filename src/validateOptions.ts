@@ -61,6 +61,10 @@ const schema = {
       type: "boolean",
     },
 
+    shouldExtractValuesFromInterfaces: {
+      type: "boolean",
+    },
+
     savePropValueAsString: {
       type: "boolean",
     },

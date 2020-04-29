@@ -11,6 +11,8 @@ export interface GeneratorOptions {
   typePropName: string;
 }
 
+type PropReturnType = "definition" | "value";
+
 export default function generateDocgenCodeBlock(
   options: GeneratorOptions,
 ): string {
@@ -37,17 +39,19 @@ export default function generateDocgenCodeBlock(
     );
 
   const codeBlocks = options.componentDocs.map(d =>
-    wrapInTryStatement([
-      options.setDisplayName ? setDisplayName(d) : null,
-      setComponentDocGen(d, options),
-      options.docgenCollectionName != null
-        ? insertDocgenIntoGlobalCollection(
-            d,
-            options.docgenCollectionName,
-            relativeFilename,
-          )
-        : null,
-    ].filter(s => s !== null) as ts.Statement[]),
+    wrapInTryStatement(
+      [
+        options.setDisplayName ? setDisplayName(d) : null,
+        setComponentDocGen(d, options),
+        options.docgenCollectionName != null
+          ? insertDocgenIntoGlobalCollection(
+              d,
+              options.docgenCollectionName,
+              relativeFilename,
+            )
+          : null,
+      ].filter(s => s !== null) as ts.Statement[],
+    ),
   );
 
   const printer = ts.createPrinter({ newLine: ts.NewLineKind.LineFeed });
@@ -132,8 +136,13 @@ function setComponentDocGen(
           ts.createPropertyAssignment(
             ts.createLiteral("props"),
             ts.createObjectLiteral(
-              Object.entries(d.props).map(([propName, prop]) =>
-                createPropDefinition(propName, prop, options),
+              Object.entries(d.props).map(
+                ([propName, prop]) =>
+                  createPropDefinition(
+                    propName,
+                    prop,
+                    options,
+                  ) as ts.PropertyAssignment,
               ),
             ),
           ),
@@ -158,11 +167,13 @@ function setComponentDocGen(
  * @param propName Prop name
  * @param prop Prop definition from `ComponentDoc.props`
  * @param options Generator options.
+ * @param returnType Specify whether return a definition or the value
  */
 function createPropDefinition(
   propName: string,
   prop: PropItem,
   options: GeneratorOptions,
+  returnType: PropReturnType = "definition",
 ) {
   /**
    * Set default prop value.
@@ -258,37 +269,79 @@ function createPropDefinition(
         )
       : undefined;
 
+  const setInterface = (objectFields: any, typeValue?: any, raw?: any) => {
+    raw && objectFields.push(setStringLiteralField("raw", raw));
+    typeValue &&
+      objectFields.push(
+        ts.createPropertyAssignment(
+          ts.createLiteral("value"),
+          ts.createArrayLiteral(
+            typeValue.map((prop: PropItem, index: number) =>
+              createPropDefinition(
+                Object.keys(typeValue)[index],
+                prop,
+                options,
+                "value",
+              ),
+            ),
+          ),
+        ),
+      );
+  };
+
   /**
    * ```
    * SimpleComponent.__docgenInfo.props.someProp.type = { name: "'blue' | 'green'"}
    * ```
+   * ```
+   * SimpleComponent.__docgenInfo.props.someProp.type = {
+   *    "name": "interface",
+   *    "raw": "OneElementInterfaceSample",
+   *    "value": [
+   *      {
+   *        "defaultValue": null,
+   *        "description": "",
+   *        "name": "sampleString",
+   *        "parent": {
+   *          "fileName": "react-docgen-typescript/src/__tests__/data/ExtractValuesFromInterface.tsx",
+   *          "name": "OneElementInterfaceSample"
+   *        },
+   *        "required": false,
+   *        "type": {
+   *          "name": "string"
+   *        }
+   *      }
+   *    ]
+   *  }
    * @param typeName Prop type name.
-   * @param [typeValue] Prop value (for enums)
+   * @param [typeValue] Prop value (for enums & interfaces)
    */
-  const setType = (typeName: string, typeValue?: any) => {
+  const setType = (typeName: string, typeValue?: any, raw?: any) => {
     const objectFields = [setStringLiteralField("name", typeName)];
     const valueField = setValue(typeValue);
-
     if (valueField) {
       objectFields.push(valueField);
     }
-
+    if (typeName === "interface") {
+      setInterface(objectFields, typeValue, raw);
+    }
     return ts.createPropertyAssignment(
       ts.createLiteral(options.typePropName),
       ts.createObjectLiteral(objectFields),
     );
   };
 
-  return ts.createPropertyAssignment(
-    ts.createLiteral(propName),
-    ts.createObjectLiteral([
-      setDefaultValue(prop.defaultValue),
-      setDescription(prop.description),
-      setName(prop.name),
-      setRequired(prop.required),
-      setType(prop.type.name, prop.type.value),
-    ]),
-  );
+  const value = ts.createObjectLiteral([
+    setDefaultValue(prop.defaultValue),
+    setDescription(prop.description),
+    setName(prop.name),
+    setRequired(prop.required),
+    setType(prop.type.name, prop.type.value, prop.type.raw),
+  ]);
+
+  return returnType === "value"
+    ? value
+    : ts.createPropertyAssignment(ts.createLiteral(propName), value);
 }
 
 /**

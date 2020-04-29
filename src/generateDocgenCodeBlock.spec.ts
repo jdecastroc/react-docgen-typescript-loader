@@ -59,3 +59,14 @@ it("generates value info for enums", () => {
     ),
   ).toMatchSnapshot();
 });
+
+it("generates value info for interfaces", () => {
+  expect(
+    generateDocgenCodeBlock(
+      getGeneratorOptions({
+        shouldExtractLiteralValuesFromEnum: true,
+        shouldExtractValuesFromInterfaces: true,
+      })("DefaultPropValueInterface.tsx"),
+    ),
+  ).toMatchSnapshot();
+});
